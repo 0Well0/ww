@@ -1,0 +1,26 @@
+name: ci
+
+on:
+  push:
+    branches:
+      [main]
+
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Checkout
+        uses: actions/checkout@v2
+      -
+        name: Log in to YC
+        uses: docker/login-action@v1
+        with:
+          registry: cr.yandex
+          username: oauth
+          password: AQAAAAApRkuIAATuwZh32d5-VUa9quHBcez4tGs
+      -
+         name: Build, tag, and push image to Yandex Cloud Container Registry
+         run: |
+          docker build -t cr.yandex/crp0v4l31afq06qgovnb/time:latest .
+          docker push cr.yandex/crp0v4l31afq06qgovnb/time:latest
